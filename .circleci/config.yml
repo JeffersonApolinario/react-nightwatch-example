@@ -31,6 +31,7 @@ jobs:
             - build
             - server.js
             - package.json
+            - nightwatch-chrome.json
   test:
     docker:
       - image: gliscor/node-chrome-aws
