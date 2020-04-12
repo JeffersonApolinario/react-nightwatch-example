@@ -35,7 +35,7 @@ jobs:
             - e2e
   test:
     docker:
-      - image: circleci/node:jessie-browsers
+      - image: gliscor/node-chrome-aws
     steps:
       - attach_workspace:
           at: .
