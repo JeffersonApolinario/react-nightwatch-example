@@ -5,7 +5,7 @@ jobs:
       - image: gliscor/node-chrome-aws
     steps:
       - checkout
-      - run: chrome --version
+      - run: google-chrome --version
       - run: ls -al
       - run: npm install
       - run: npm run build
