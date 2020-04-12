@@ -30,6 +30,7 @@ jobs:
             - node_modules
             - build
             - server.js
+            - package.json
   test:
     docker:
       - image: gliscor/node-chrome-aws
