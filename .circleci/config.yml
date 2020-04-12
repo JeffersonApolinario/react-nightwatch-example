@@ -5,9 +5,10 @@ jobs:
       - image: gliscor/node-chrome-aws
     steps:
       - checkout
+      - run: chrome --version
       - run: ls -al
       - run: npm install
-      - run: npm build
+      - run: npm run build
       - run: npm run e2e:chrome:headless
 workflows:
     build-and-test:
