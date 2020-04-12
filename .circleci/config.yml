@@ -15,23 +15,24 @@ jobs:
       - run: npm install
       - save_cache:
           paths:
-            - node_modules
+            - "node_modules"
             - package-lock.json
           key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm run build
       - save_cache:
           paths:
-            - build
+            - "build"
           key: build-v1-{{ .Branch }}
+      - run: ls -al
   test:
     docker:
       - image: gliscor/node-chrome-aws
     steps:
-      - checkout
+      # - checkout
       - restore_cache:
           keys:
             - build-v1-{{ .Branch }}
-            - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            # - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: ls -al
       # - run: npm install -g pm2
       # - run: pm2 start --name server node server.js
