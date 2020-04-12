@@ -1,16 +1,16 @@
 version: 2.1
-orbs:
-  node: circleci/node@1.1.6
 jobs:
   build-and-test:
-    executor:
-      name: node/default
+    docker:
+      - image: gliscor/node-chrome-aws
     steps:
       - checkout
       - node/with-cache:
           steps:
+            - run: ls -al
             - run: npm install
-            - run: npm test
+            - run: npm build
+            - run: npm run e2e:chrome:headless
 workflows:
     build-and-test:
       jobs:
