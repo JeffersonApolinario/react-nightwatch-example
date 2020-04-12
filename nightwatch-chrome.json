@@ -24,7 +24,7 @@
       },
 
       "chrome-headless": {
-        "launch_url" : "http://localhost:3000",
+        "launch_url" : "http://localhost:8080",
         "desiredCapabilities": {
           "browserName": "chrome",
           "chromeOptions": {
