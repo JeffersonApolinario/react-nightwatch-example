@@ -1,17 +1,63 @@
 version: 2.1
+
+orbs:
+  aws-s3: circleci/aws-s3@1.0.15
+
 jobs:
-  build-and-test:
+  build:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - restore_cache:
+          keys:
+            - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules/
+          key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm run build
+      - save_cache:
+          paths:
+            - build/
+          key: build-v1-{{ .Branch }}
+  test:
     docker:
       - image: gliscor/node-chrome-aws
     steps:
-      - checkout
-      - run: npm install
       - run: npm install -g pm2
       - run: pm2 start --name server node server.js
-      - run: npm run build
       - run: npm run e2e:chrome:headless
       - run: pm2 delete server
+  deploy:
+    executor: aws-cli/default
+    steps:
+      - restore_cache:
+          keys:
+            - build-v1-{{ .Branch }}
+      - aws-s3/copy:
+          from: build
+          to: s3://my-react-deploy
+    
+  # build-and-test:
+  #   docker:
+  #     - image: gliscor/node-chrome-aws
+  #   steps:
+  #     - checkout
+  #     - run: npm install
+  #     - run: npm install -g pm2
+  #     - run: pm2 start --name server node server.js
+  #     - run: npm run build
+  #     - run: npm run e2e:chrome:headless
+  #     - run: pm2 delete server
 workflows:
     build-and-test:
       jobs:
-        - build-and-test
+        - build
+        - test:
+            requires:
+              - build
+        - deploy:
+            requires:
+              - build
+              - test
