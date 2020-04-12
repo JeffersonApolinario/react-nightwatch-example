@@ -54,6 +54,8 @@ jobs:
     docker:
       - image: cimg/python:3.6
     steps:
+      - attach_workspace:
+          at: .
       - run: ls -al
       - aws-s3/copy:
           from: build
