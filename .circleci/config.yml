@@ -33,13 +33,16 @@ jobs:
     docker:
       - image: gliscor/node-chrome-aws
     steps:
-      - checkout
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: .
+      # - checkout
       # - restore_cache:
       #     keys:
       #       - build-v1-{{ .Branch }}
             # - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: pwd
-      - run: ls -al /
+      - run: ls -al
       # - run: npm install -g pm2
       # - run: pm2 start --name server node server.js
       # - run: npm run e2e:chrome:headless
