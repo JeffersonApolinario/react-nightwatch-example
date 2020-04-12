@@ -54,7 +54,7 @@ jobs:
     docker:
       - image: cimg/python:3.6
     steps:
-      - run: ls al
+      - run: ls -al
       - aws-s3/copy:
           from: build
           to: s3://$DEPLOY_S3_BUCKET_NAME
@@ -62,10 +62,10 @@ workflows:
     build-and-test:
       jobs:
         - build
-        - test:
-            requires:
-              - build
+        # - test:
+        #     requires:
+        #       - build
         - deploy:
             requires:
               - build
-              - test
+              # - test
