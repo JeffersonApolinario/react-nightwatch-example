@@ -59,6 +59,7 @@ jobs:
       - run: ls -al
       - run: echo $DEPLOY_S3_BUCKET_NAME
       - aws-s3/copy:
+          arguments: --recursive
           from: build
           to: s3://$DEPLOY_S3_BUCKET_NAME
 workflows:
