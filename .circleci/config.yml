@@ -30,7 +30,8 @@ jobs:
       - run: npm run e2e:chrome:headless
       - run: pm2 delete server
   deploy:
-    executor: aws-cli/default
+    docker:
+      - image: cimg/python:3.6
     steps:
       - restore_cache:
           keys:
